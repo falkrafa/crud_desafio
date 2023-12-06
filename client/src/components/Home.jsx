@@ -1,11 +1,25 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Home = ({ loggedIn, user }) => {
+
+  const handleLogout = () => {
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
 
   return (
     <section className="home-section">
       <div className="buttons">
+        {loggedIn ? (
+          <>
+            {user && (
+              <p>Welcome, {user.name}</p>
+            )}
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
           <>
             <Link to="/login" className="btn btn-primary">
               Login
@@ -14,6 +28,7 @@ const Home = () => {
               Register
             </Link>
           </>
+        )}
       </div>
     </section>
   );
