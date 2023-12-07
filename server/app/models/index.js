@@ -7,7 +7,6 @@ import Post from './Post.js';
 const sequelize = new Sequelize(DB, USER, PASSWORD, {
   host: HOST,
   dialect: _dialect,
-  operatorsAliases: false,
   pool: {
     max: _pool.max,
     min: _pool.min,
@@ -15,6 +14,7 @@ const sequelize = new Sequelize(DB, USER, PASSWORD, {
     idle: _pool.idle
   }
 });
+
 
 const models = [User, Post];
 
