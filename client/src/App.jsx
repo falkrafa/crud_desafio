@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './components/home.jsx';
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
+import Profile from "./components/Profile.jsx";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -21,25 +22,16 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (loggedIn) {
-      navigate('/', { replace: true });
-    }
-  }, [loggedIn, navigate]);
-
   return (
     <div className="app-section">
       <Routes>
         <Route path="/" element={<Home loggedIn={loggedIn} user={user} />} />
-        {!loggedIn ? (
-          <>
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/login"
-              element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />}
-            />
-          </>
+        <Route path="/register" element={<Register/>} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />}/>
+        {user ? (
+          <Route path="/profile/:userId" element={<Profile />} />
         ) : null}
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </div>
   );

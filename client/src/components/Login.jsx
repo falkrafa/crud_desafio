@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import '../assets/css/login.css';
 
 const Login = ({ setLoggedIn, setUser }) => {
   const navigate = useNavigate();
-
+  if(localStorage.getItem('loggedIn') === 'true') {
+    navigate('/');
+  }
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().required('Password is required'),
@@ -50,7 +53,6 @@ const Login = ({ setLoggedIn, setUser }) => {
       <h1>Login</h1>
       <form onSubmit={formik.handleSubmit}>
         <div>
-          <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
@@ -61,11 +63,10 @@ const Login = ({ setLoggedIn, setUser }) => {
             onBlur={formik.handleBlur}
           />
           {formik.touched.email && formik.errors.email && (
-            <div>{formik.errors.email}</div>
+            <div className="error-message">{formik.errors.email}</div>
           )}
         </div>
         <div>
-          <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
@@ -76,7 +77,7 @@ const Login = ({ setLoggedIn, setUser }) => {
             onBlur={formik.handleBlur}
           />
           {formik.touched.password && formik.errors.password && (
-            <div>{formik.errors.password}</div>
+            <div className="error-message">{formik.errors.password}</div>
           )}
         </div>
         <button type="submit">Login</button>

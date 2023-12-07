@@ -7,7 +7,7 @@ router.post("/", posts.createPost);
 
 router.get("/", posts.findAllPosts);
 
-router.get("/:id", posts.findPostById);
+router.get("/user/:id", posts.findPostsByUserId);
 
 router.put("/:id", posts.updatePost);
 

@@ -7,11 +7,12 @@ import postRoutes from "./app/routes/postsRoute.js";
 
 const app = express();
 
-
 app.use(cors());
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true })); 
+
+app.use('/public', express.static('public'));
 
 db.sequelize.sync().then(() => {
   console.log("Drop and re-sync db.");

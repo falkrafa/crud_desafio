@@ -1,64 +1,110 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import '../assets/css/register.css';
 
 const Register = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
+  const navigate = useNavigate();
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Username is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().required('Password is required'),
+    profilePicture: Yup.mixed().required('Profile picture is required'),
   });
 
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      profilePicture: null,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        await validationSchema.validate(values, { abortEarly: false });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        const formDataWithFile = new FormData();
+        formDataWithFile.append('name', values.name);
+        formDataWithFile.append('email', values.email);
+        formDataWithFile.append('password', values.password);
+        formDataWithFile.append('profilePicture', values.profilePicture);
 
-    try {
-      const response = await fetch('http://localhost:8080/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+        const response = await fetch('http://localhost:8080/users', {
+          method: 'POST',
+          body: formDataWithFile,
+        });
 
-      if (response.ok) {
-        console.log('Registro realizado com sucesso');
-        window.location.href = '/login';
-      } else {
-        console.error('Falha no registro');
+        if (response.ok) {
+          console.log('Registration successful');
+          navigate('/login');
+        } else {
+          console.error('Registration failed');
+        }
+      } catch (error) {
+        console.error('Validation Error:', error.errors);
       }
-    } catch (error) {
-      console.error('Erro:', error);
-    }
-  };
+    },
+  });
 
   return (
-    <section className='register-section'>
+    <section className="register-section">
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleInputChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleInputChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleInputChange}
-        />
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Username"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.name && formik.errors.name && (
+            <div className="error-message">{formik.errors.name}</div>
+          )}
+        </div>
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="error-message">{formik.errors.email}</div>
+          )}
+        </div>
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className="error-message">{formik.errors.password}</div>
+          )}
+        </div>
+        <div>
+          <input
+            type="file"
+            name="profilePicture"
+            onChange={(e) => {
+              formik.setFieldValue('profilePicture', e.currentTarget.files[0]);
+            }}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.profilePicture && formik.errors.profilePicture && (
+            <div className="error-message">{formik.errors.profilePicture}</div>
+          )}
+        </div>
         <input type="submit" value="Register" />
       </form>
     </section>

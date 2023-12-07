@@ -1,7 +1,11 @@
-export const HOST = "localhost";
-export const USER = "postgres";
-export const PASSWORD = "rafael22";
-export const DB = "desafio";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const HOST = process.env.HOST;
+export const USER = process.env.USER;
+export const PASSWORD = process.env.PASSWORD;
+export const DB = process.env.DB;
 export const dialect = "postgres";
 export const pool = {
   max: 5,

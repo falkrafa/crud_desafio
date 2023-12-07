@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import Sequelize from "sequelize";
 const { Op } = Sequelize;
+import User from "../models/User.js";
 
 export const createPost = (req, res) => {
     if (!req.body.content) {
@@ -27,37 +28,37 @@ export const createPost = (req, res) => {
         });
 };
 
-export const findAllPosts = (req, res) => {
-    Post.findAll()
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving posts."
-            });
+export const findAllPosts = async (req, res) => {
+    try{
+        const posts = await Post.findAll({
+            include: User,
         });
+        res.send(posts);
+    }catch(err){
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving posts."
+        });
+    }
 };
 
-export const findPostById = (req, res) => {
-    const id = req.params.id;
+export const findPostsByUserId = async (req, res) => {
+    const userId = req.params.id;
 
-    Post.findByPk(id)
-        .then(data => {
-            if (data) {
-                res.send(data);
-            } else {
-                res.status(404).send({
-                    message: `Cannot find Post with id=${id}.`
-                });
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error retrieving Post with id=" + id
-            });
+    try{
+        const posts = await Post.findAll({
+            where: {
+                userId: userId,
+            },
+            include: User,
         });
-};
+        res.send(posts);
+    }catch(err){
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving posts."
+        });
+    }
+}
+
 
 export const updatePost = (req, res) => {
     const id = req.params.id;
@@ -110,7 +111,7 @@ export const deletePost = (req, res) => {
 const posts = {
     createPost,
     findAllPosts,
-    findPostById,
+    findPostsByUserId,
     updatePost,
     deletePost,
 };

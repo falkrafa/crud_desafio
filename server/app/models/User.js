@@ -22,6 +22,10 @@ class User extends Model {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      profilePicture: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     }, {
       sequelize,
       modelName: 'User'

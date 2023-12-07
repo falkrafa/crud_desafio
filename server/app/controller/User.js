@@ -14,6 +14,7 @@ export const createUser = (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        profilePicture: req.file ? `public/uploads/${req.file.filename}` : null,
     };
 
     User.create(user)
