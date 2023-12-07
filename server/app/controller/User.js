@@ -38,7 +38,7 @@ export const findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || "Some error occurred while retrieving tutorials."
+                message: err.message || "Some error occurred while retrieving User."
             });
         });
 };
@@ -52,13 +52,13 @@ export const findOne = (req, res) => {
                 res.send(data);
             } else {
                 res.status(404).send({
-                    message: `Cannot find Tutorial with id=${id}.`
+                    message: `Cannot find User with id=${id}.`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving Tutorial with id=" + id
+                message: "Error retrieving User with id=" + id
             });
         });
 };
@@ -89,17 +89,17 @@ export const update = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Tutorial was updated successfully."
+                    message: "User was updated successfully."
                 });
             } else {
                 res.send({
-                    message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
+                    message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error updating Tutorial with id=" + id
+                message: "Error updating User with id=" + id
             });
         });
 };
@@ -113,48 +113,20 @@ export const deleteUser = (req, res) => {
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "Tutorial was deleted successfully!"
+                    message: "User was deleted successfully!"
                 });
             } else {
                 res.send({
-                    message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+                    message: `Cannot delete User with id=${id}. Maybe User was not found!`
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete Tutorial with id=" + id
+                message: "Could not delete User with id=" + id
             });
         });
 };
-
-// export const deleteAll = (req, res) => {
-//     User.destroy({
-//         where: {},
-//         truncate: false
-//     })
-//         .then(nums => {
-//             res.send({ message: `${nums} Tutorials were deleted successfully!` });
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || "Some error occurred while removing all tutorials."
-//             });
-//         });
-// }
-
-// export const findAllPublished = (req, res) => {
-//     User.findAll({ where: { published: true } })
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message: err.message || "Some error occurred while retrieving tutorials."
-//             });
-//         });
-// }
 
 const users = {
     createUser,

@@ -1,4 +1,3 @@
-// models/index.js
 import Sequelize from "sequelize";
 import { DB, USER, PASSWORD, HOST, dialect as _dialect, pool as _pool } from "../config/db.js";
 import User from "./User.js";
