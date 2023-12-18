@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Sequelize from "sequelize";
 const { Op } = Sequelize;
+import { generateToken } from "../middleware/authMiddleware.js";
 
 export const createUser = (req, res) => {
     if (!req.body.name) {
@@ -70,7 +71,8 @@ export const login = async (req, res) => {
       const user = await User.findOne({ where: { email, password } });
   
       if (user) {
-        res.status(200).json({ message: 'Login successful', user });
+        const token = generateToken(user);
+        res.status(200).json({ message: 'Login successful', user, token });
       } else {
         res.status(401).json({ message: 'Invalid email or password' });
       }

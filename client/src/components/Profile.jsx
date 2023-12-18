@@ -24,6 +24,7 @@ const Profile = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
 
@@ -44,10 +45,16 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/users/${userId}`);
-        const data = await response.json();
-
-        if (response.ok) {
+        const response = await fetch(`http://localhost:8080/users/${userId}`, {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json',
+            'Autorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+      });
+      
+      if (response.ok) {
+          const data = await response.json();
           setUserProfile(data);
         } else {
           console.error('Failed to fetch user profile');
@@ -66,6 +73,7 @@ const Profile = () => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -88,6 +96,7 @@ const Profile = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           content: formData.content,
@@ -117,9 +126,7 @@ const Profile = () => {
           {userProfile.profilePicture && (
             <img
               src={`http://localhost:8080/${userProfile.profilePicture}`}
-              alt="Profile"
-              style={{ maxWidth: '300px', maxHeight: '300px' }} />
-
+              alt="Profile"/>
           )}
         </div>
         <div className='my-post-section'>

@@ -33,11 +33,12 @@ const Login = ({ setLoggedIn, setUser }) => {
         const data = await response.json();
 
         if (response.ok) {
-          console.log('Login successful', data.user);
+          console.log('Login successful', data.user, data.token);
           setLoggedIn(true);
           setUser(data.user);
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token);
           navigate('/');
         } else {
           console.error('Login failed', data.message);

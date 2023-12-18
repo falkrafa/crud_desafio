@@ -35,9 +35,9 @@ const Home = ({ loggedIn, user }) => {
   const handleLogout = () => {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     window.location.reload();
   };
-
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -55,6 +55,7 @@ const Home = ({ loggedIn, user }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
         body: JSON.stringify({
           content: formData.content,

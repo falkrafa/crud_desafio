@@ -32,6 +32,7 @@ const Register = () => {
         formDataWithFile.append('password', values.password);
         formDataWithFile.append('profilePicture', values.profilePicture);
 
+        console.log('Form data with file:', formDataWithFile);
         const response = await fetch('http://localhost:8080/users', {
           method: 'POST',
           body: formDataWithFile,
