@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../assets/css/profile.css';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
-  const [userProfile, setUserProfile] = useState(null);
-  const { userId } = useParams();
   const [allPosts, setAllPosts] = useState([]);
   const [updatePost, setUpdatePost] = useState(false);  
   const [formData, setFormData] = useState({
     content: '', 
   });
-
+  const userProfile = useSelector((state) => state.auth.user);
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -20,7 +19,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/posts/user/${userId}`, {
+        const response = await fetch(`http://localhost:8080/posts/user/${userProfile.id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -42,30 +41,30 @@ const Profile = () => {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/users/${userId}`, {
-          method: 'GET',
-          headers: {
-            'content-type': 'application/json',
-            'Autorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-      });
+  // useEffect(() => {
+  //   const fetchUserProfile = async () => {
+  //     try {
+  //       const response = await fetch(`http://localhost:8080/users/${userId}`, {
+  //         method: 'GET',
+  //         headers: {
+  //           'content-type': 'application/json',
+  //           'Autorization': `Bearer ${localStorage.getItem('token')}`,
+  //         },
+  //     });
       
-      if (response.ok) {
-          const data = await response.json();
-          setUserProfile(data);
-        } else {
-          console.error('Failed to fetch user profile');
-        }
-      } catch (error) {
-        console.error('Error during API call', error);
-      }
-    };
+  //     if (response.ok) {
+  //         const data = await response.json();
+  //         setUserProfile(data);
+  //       } else {
+  //         console.error('Failed to fetch user profile');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error during API call', error);
+  //     }
+  //   };
 
-    fetchUserProfile();
-  }, [userId]);
+  //   fetchUserProfile();
+  // }, [userId]);
 
   const deletePost = async (postId) => {
     try {

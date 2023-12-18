@@ -4,20 +4,21 @@ import Home from './components/Home.jsx';
 import Register from "./components/Register.jsx";
 import Login from "./components/Login.jsx";
 import Profile from "./components/Profile.jsx";
+import { useDispatch, useSelector} from "react-redux";
+import { setLoggedIn, setUser } from "./reducers/authReducer.js";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const user = useSelector((state)=> state.auth.user)
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedLoggedIn = localStorage.getItem('loggedIn');
     const storedUser = localStorage.getItem('user');
 
     if (storedLoggedIn) {
-      setLoggedIn(true);
+      dispatch(setLoggedIn(true));
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        dispatch(setUser(JSON.parse(storedUser)));
       }
     }
   }, []);
@@ -25,9 +26,9 @@ function App() {
   return (
     <div className="app-section">
       <Routes>
-        <Route path="/" element={<Home loggedIn={loggedIn} user={user} />} />
+        <Route path="/" element={<Home/>} />
         <Route path="/register" element={<Register/>} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} setUser={setUser} />}/>
+        <Route path="/login" element={<Login/>}/>
         {user && localStorage.getItem('token') ? (
           <Route path="/profile/:userId" element={<Profile />} />
         ) : null}

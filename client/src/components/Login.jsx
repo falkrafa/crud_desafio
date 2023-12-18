@@ -3,8 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import '../assets/css/login.css';
+import { useDispatch } from 'react-redux';
+import { setLoggedIn, setUser } from '../reducers/authReducer.js';
 
-const Login = ({ setLoggedIn, setUser }) => {
+const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   if(localStorage.getItem('loggedIn') === 'true') {
     navigate('/');
@@ -29,13 +32,11 @@ const Login = ({ setLoggedIn, setUser }) => {
           },
           body: JSON.stringify(values),
         });
-
-        const data = await response.json();
-
         if (response.ok) {
+          const data = await response.json();
           console.log('Login successful', data.user, data.token);
-          setLoggedIn(true);
-          setUser(data.user);
+          dispatch(setLoggedIn(true));
+          dispatch(setUser(data.user));
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);

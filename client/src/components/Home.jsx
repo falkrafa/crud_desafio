@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/css/home.css';
+import { useSelector } from 'react-redux';
 
-const Home = ({ loggedIn, user }) => {
+const Home = () => {
+
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const user = useSelector((state) => state.auth.user);  
   const [formData, setFormData] = useState({
     content: '',
   });
@@ -82,16 +86,21 @@ const Home = ({ loggedIn, user }) => {
           {loggedIn ? (
             <>
               {user && (
-                <Link to={`/profile/${user.id}`} className='btn'><p>Welcome, {user.name}</p></Link>
+                <Link to={`/profile/${user.id}`} className='btn'>
+                  <div className='profile-box'>
+                    <p className='profile-name'>{user.name}</p>
+                    <img src={`http://localhost:8080/${user.profilePicture}`} alt="Profile"/>
+                  </div>
+                </Link>
               )}
               <button onClick={handleLogout} className='btn2'>Logout</button>
             </>
           ) : (
             <>
-              <Link to={"/login"} className="btn">
+              <Link to={"/login"} className="btn3">
                 Login
               </Link>
-              <Link to={"/register"} className="btn">
+              <Link to={"/register"} className="btn3">
                 Register
               </Link>
             </>
@@ -112,7 +121,10 @@ const Home = ({ loggedIn, user }) => {
             {allPosts?.length > 0 ? (
               allPosts.map((post) => (
                 <div key={post.id} className="post">
-                  <h3>{post.User.name}</h3>
+                  <div className='post-user'>
+                    <h3>{post.User.name}</h3>
+                    <img src={`http://localhost:8080/${post.User.profilePicture}`} alt="Profile"/>
+                  </div>
                   <p>{post.content}</p>
                   <p>{post.likes} likes</p>
                 </div>
