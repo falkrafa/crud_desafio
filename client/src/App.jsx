@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Home from './components/Home.jsx';
-import Register from "./components/Register.jsx";
-import Login from "./components/Login.jsx";
-import Profile from "./components/Profile.jsx";
+import Home from './components/Home/Home.jsx';
+import Register from "./components/Register/Register.jsx";
+import Login from "./components/Login/Login.jsx";
+import Profile from "./components/Profile/Profile.jsx";
 import { useDispatch, useSelector} from "react-redux";
 import { setLoggedIn, setUser } from "./reducers/authReducer.js";
 
