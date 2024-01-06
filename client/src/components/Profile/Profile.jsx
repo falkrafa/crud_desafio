@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import ProfileContainer from './ProfileContainer';
 
 const Profile = () => {
-  const { allPosts, setUpdatePost, updatePost, handleInputChange, handleSub, deletePost, userProfile } = ProfileContainer();
+  const { allPosts, setUpdatePost, updatePost, handleInputChange, handleSub, deletePostFunc, userProfile } = ProfileContainer();
   return (
     <section className="profile-section">
       <h1>User Profile</h1>
@@ -32,7 +32,7 @@ const Profile = () => {
           <p>{post.content}</p>
           <span>{post.likes} likes</span>
           <div className='buttons'>
-            <button onClick={() => deletePost(post.id)} className='btn2'>Delete Post</button>
+            <button onClick={() => deletePostFunc(post.id)} className='btn2'>Delete Post</button>
             <button onClick={() => setUpdatePost(post.id)} className='btn2'>Update Post</button>
           </div>
         </div>

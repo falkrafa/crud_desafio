@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../assets/css/home.css';
 import HomeContainer from './HomeContainer';
 const Home = () => {
-  const { loggedIn, user, allPosts,handleInput, handleSub, handleLogout} = HomeContainer();
+  const { loggedIn, user, allPosts,handleInput, handleSub, handleLogout, formData} = HomeContainer();
 
   
   return (
@@ -38,7 +38,7 @@ const Home = () => {
             <div className='make-post-area'>
               <h1>Make a Post</h1>
               <form method="post" onSubmit={handleSub}>
-                <textarea name="content" id="" cols="40" rows="2" onChange={handleInput} placeholder='Make a post'></textarea>
+                <textarea name="content" id="" cols="40" rows="2" value={formData.content} onChange={handleInput} placeholder='Make a post'></textarea>
                 <button type="submit" className='btn2'>Make Post</button>
               </form>
             </div>

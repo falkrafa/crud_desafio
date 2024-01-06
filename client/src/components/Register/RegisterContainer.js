@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { Register } from '../../Processer/Register';
 
 const RegisterContainer = () => {
     const navigate = useNavigate();
@@ -31,17 +32,7 @@ const RegisterContainer = () => {
         formDataWithFile.append('profilePicture', values.profilePicture);
 
         console.log('Form data with file:', formDataWithFile);
-        const response = await fetch('http://localhost:8080/users', {
-          method: 'POST',
-          body: formDataWithFile,
-        });
-
-        if (response.ok) {
-          console.log('Registration successful');
-          navigate('/login');
-        } else {
-          console.error('Registration failed');
-        }
+        await Register(formDataWithFile, navigate);
       } catch (error) {
         console.error('Validation Error:', error.errors);
       }
