@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/css/home.css';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { Post, MakePost } from '../../Processer/Post.js';
+import { Post, MakePost } from '../../Processor/Post.js';
 import axios from 'axios';
 
 const HomeContainer = () => {

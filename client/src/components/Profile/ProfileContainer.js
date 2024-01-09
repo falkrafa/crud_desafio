@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../../assets/css/profile.css';
 import { useSelector } from 'react-redux';
-import { getProfile, deletePost, updatePostF} from '../../Processer/Profile';
+import { getProfile, deletePost, updatePostF} from '../../Processor/Profile';
 
 const ProfileContainer = () => {
   const [allPosts, setAllPosts] = useState([]);

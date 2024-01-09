@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import '../../assets/css/login.css';
 import { useDispatch } from 'react-redux';
 import { setLoggedIn, setUser } from '../../reducers/authReducer.js';
-import { auth } from '../../Processer/auth.js';
+import { auth } from '../../Processor/auth.js';
 
 
 const LoginContainer = () => {

@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Register } from '../../Processer/Register';
+import { Register } from '../../Processor/Register';
 
 const RegisterContainer = () => {
     const navigate = useNavigate();
